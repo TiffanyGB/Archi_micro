@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from model import predict_wine_quality
+from appel_model import predict_wine_quality
+import pickle
 
 app = FastAPI()
 
@@ -18,6 +19,10 @@ class WineData(BaseModel):
     alcohol: float
     quality: int
     Id: int
+    
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 @app.post("/api/predict")
 async def predict(data: WineData):
@@ -27,13 +32,13 @@ async def predict(data: WineData):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/api/perfect_wine")
-async def get_perfect_wine():
-    try:
-        perfect_wine = find_perfect_wine()
-        return {"perfect_wine": perfect_wine}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.get("/api/perfect_wine")
+# async def get_perfect_wine():
+#     try:
+#         perfect_wine = find_perfect_wine()
+#         return {"perfect_wine": perfect_wine}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
     
 
 if __name__ == '__main__':
