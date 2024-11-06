@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
+import pickle
 
 df = pd.read_csv('./Wines.csv')
 
@@ -43,3 +44,8 @@ for name, model in models.items():
     # Afficher le rapport de classification pour plus de détails
     print(f"\nClassification Report for {name}:\n", classification_report(y_test, y_pred))
     print("-" * 50)
+    
+with open("wine_quality_model.pkl", "wb") as f:
+    pickle.dump(model, f)
+
+print("Modèle entraîné et sauvegardé dans 'wine_quality_model.pkl'")
